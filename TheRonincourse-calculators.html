@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheRonincourse — Trader's Arsenal</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #F0B429;
+    --accent2: #E85D04;
+    --telegram: #229ED9;
+    --radius: 12px;
+    --transition: 0.25s cubic-bezier(.4,0,.2,1);
+  }
+
+  [data-theme="dark"] {
+    --bg: #0A0B0F;
+    --surface: #12141A;
+    --surface2: #1A1D26;
+    --border: rgba(255,255,255,0.07);
+    --text: #F0F0F5;
+    --text2: #8A8FA8;
+    --text3: #555B72;
+    --input-bg: #0D0F15;
+    --result-bg: #1E212E;
+    --shadow: 0 8px 32px rgba(0,0,0,0.5);
+    --glow: 0 0 24px rgba(240,180,41,0.12);
+  }
+
+  [data-theme="light"] {
+    --bg: #F4F5FA;
+    --surface: #FFFFFF;
+    --surface2: #F0F1F7;
+    --border: rgba(0,0,0,0.08);
+    --text: #0D0F1A;
+    --text2: #555B72;
+    --text3: #A0A5B8;
+    --input-bg: #F8F9FC;
+    --result-bg: #EEF0FA;
+    --shadow: 0 8px 32px rgba(0,0,0,0.1);
+    --glow: 0 0 24px rgba(240,180,41,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background var(--transition), color var(--transition);
+  }
+
+  /* HEADER */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand-logo {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: #000;
+  }
+
+  .brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .brand-sub {
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+    margin-top: -2px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* THEME TOGGLE */
+  .theme-toggle {
+    width: 52px;
+    height: 28px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    cursor: pointer;
+    position: relative;
+    transition: background var(--transition);
+    flex-shrink: 0;
+  }
+
+  .theme-toggle::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    transition: transform var(--transition);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+
+  [data-theme="light"] .theme-toggle::after {
+    transform: translateX(24px);
+  }
+
+  .toggle-icon {
+    position: absolute;
+    font-size: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .toggle-icon.moon { left: 6px; }
+  .toggle-icon.sun { right: 5px; }
+
+  /* TELEGRAM BTN */
+  .tg-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--telegram);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+    box-shadow: 0 4px 16px rgba(34,158,217,0.4);
+    white-space: nowrap;
+  }
+
+  .tg-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(34,158,217,0.55);
+  }
+
+  .tg-btn:active { transform: scale(0.97); }
+
+  .tg-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 48px 24px 32px;
+    position: relative;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 6vw, 64px);
+    letter-spacing: 4px;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    color: var(--text2);
+    font-size: 15px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* TABS */
+  .tabs-wrapper {
+    padding: 0 24px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .tabs-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .tabs-scroll::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--transition);
+  }
+
+  .tab-btn .tab-icon { font-size: 15px; }
+
+  .tab-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #000;
+    border-color: transparent;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(240,180,41,0.3);
+  }
+
+  /* CALCULATOR PANELS */
+  .calc-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  .calc-panel {
+    display: none;
+    animation: fadeUp 0.3s ease;
+  }
+
+  .calc-panel.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    transition: background var(--transition), border var(--transition);
+  }
+
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card-title .icon {
+    font-size: 20px;
+  }
+
+  .card-desc {
+    color: var(--text2);
+    font-size: 13px;
+    margin-bottom: 24px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+
+  /* GRID INPUTS */
+  .input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text2);
+    font-family: 'DM Mono', monospace;
+  }
+
+  input, select {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 15px;
+    font-family: 'DM Mono', monospace;
+    padding: 11px 14px;
+    width: 100%;
+    outline: none;
+    transition: border var(--transition), box-shadow var(--transition), background var(--transition);
+  }
+
+  input:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(240,180,41,0.12);
+  }
+
+  input::placeholder { color: var(--text3); }
+
+  select option {
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  /* BUTTONS */
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .btn-calc {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    box-shadow: 0 4px 16px rgba(240,180,41,0.3);
+  }
+
+  .btn-calc:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(240,180,41,0.45);
+  }
+
+  .btn-calc:active { transform: scale(0.97); }
+
+  .btn-reset {
+    background: transparent;
+    color: var(--text2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .btn-reset:hover {
+    border-color: var(--text2);
+    color: var(--text);
+  }
+
+  /* RESULTS */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .result-box {
+    background: var(--result-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    transition: background var(--transition);
+  }
+
+  .result-box.highlight {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(240,180,41,0.06), rgba(232,93,4,0.06));
+    box-shadow: var(--glow);
+  }
+
+  .result-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text2);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 6px;
+  }
+
+  .result-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+
+  .result-value.positive { color: #2ECC71; }
+  .result-value.negative { color: #E74C3C; }
+  .result-value.accent { color: var(--accent); }
+  .result-value.info { color: #5DADE2; }
+
+  /* TRADE JOURNAL */
+  .journal-table-wrap {
+    overflow-x: auto;
+    margin-top: 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  th {
+    background: var(--surface2);
+    color: var(--text2);
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    white-space: nowrap;
+    transition: background var(--transition);
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  tr:hover td { background: var(--surface2); }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .badge.win { background: rgba(46,204,113,0.15); color: #2ECC71; }
+  .badge.loss { background: rgba(231,76,60,0.15); color: #E74C3C; }
+  .badge.open { background: rgba(93,173,226,0.15); color: #5DADE2; }
+
+  .del-btn {
+    background: none;
+    border: none;
+    color: var(--text3);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.2s;
+  }
+
+  .del-btn:hover { color: #E74C3C; }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .stat-mini {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .stat-mini .s-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .stat-mini .s-lbl {
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 2px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+
+  /* RR VISUAL */
+  .rr-visual {
+    height: 10px;
+    border-radius: 20px;
+    background: var(--surface2);
+    overflow: hidden;
+    margin-top: 12px;
+    position: relative;
+  }
+
+  .rr-bar-risk {
+    height: 100%;
+    background: linear-gradient(90deg, #E74C3C, #E85D04);
+    border-radius: 20px 0 0 20px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    float: left;
+  }
+
+  .rr-bar-reward {
+    height: 100%;
+    background: linear-gradient(90deg, #27AE60, #2ECC71);
+    border-radius: 0 20px 20px 0;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    float: left;
+  }
+
+  .rr-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text2);
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--text3);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    border-top: 1px solid var(--border);
+    letter-spacing: 1px;
+  }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    header { padding: 0 16px; }
+    .hero { padding: 32px 16px 24px; }
+    .tabs-wrapper, .calc-section { padding-left: 16px; padding-right: 16px; }
+    .card { padding: 20px 16px; }
+    .tg-btn span { display: none; }
+    .input-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="brand">
+    <div class="brand-logo">TR</div>
+    <div>
+      <div class="brand-name">TheRonincourse</div>
+      <div class="brand-sub">Trader's Arsenal</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+      <span class="toggle-icon moon">🌙</span>
+      <span class="toggle-icon sun">☀️</span>
+    </button>
+    <a href="https://t.me/+dN0FYUl0lTcwMWFl" target="_blank" class="tg-btn">
+      <svg class="tg-icon" viewBox="0 0 24 24" fill="none">
+        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z" fill="white"/>
+      </svg>
+      <span>Join My Telegram</span>
+    </a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>TRADER'S <span>ARSENAL</span></h1>
+  <p>// Professional Calculators for Serious Traders</p>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrapper">
+  <div class="tabs-scroll">
+    <button class="tab-btn active" onclick="switchTab('position', this)"><span class="tab-icon">📐</span> Position Size</button>
+    <button class="tab-btn" onclick="switchTab('rr', this)"><span class="tab-icon">⚖️</span> Risk:Reward</button>
+    <button class="tab-btn" onclick="switchTab('journal', this)"><span class="tab-icon">📒</span> Trade Journal</button>
+    <button class="tab-btn" onclick="switchTab('drawdown', this)"><span class="tab-icon">📉</span> Drawdown</button>
+    <button class="tab-btn" onclick="switchTab('brokerage', this)"><span class="tab-icon">💰</span> Brokerage & P&L</button>
+  </div>
+</div>
+
+<!-- CALCULATORS -->
+<div class="calc-section">
+
+  <!-- 1. POSITION SIZE -->
+  <div id="panel-position" class="calc-panel active">
+    <div class="card">
+      <div class="card-title"><span class="icon">📐</span> Position Size Calculator</div>
+      <div class="card-desc">// Risk % se exact lot size calculate karo</div>
+      <div class="input-grid">
+        <div class="field">
+          <label>Account Capital (₹)</label>
+          <input type="number" id="ps-capital" placeholder="e.g. 100000" oninput="calcPosition()">
+        </div>
+        <div class="field">
+          <label>Risk Per Trade (%)</label>
+          <input type="number" id="ps-risk" placeholder="e.g. 1" step="0.1" oninput="calcPosition()">
+        </div>
+        <div class="field">
+          <label>Entry Price (₹)</label>
+          <input type="number" id="ps-entry" placeholder="e.g. 500" oninput="calcPosition()">
+        </div>
+        <div class="field">
+          <label>Stop Loss Price (₹)</label>
+          <input type="number" id="ps-sl" placeholder="e.g. 490" oninput="calcPosition()">
+        </div>
+        <div class="field">
+          <label>Instrument Type</label>
+          <select id="ps-type" onchange="calcPosition()">
+            <option value="equity">Equity / Stocks</option>
+            <option value="futures">Futures (1 Lot = 1 Unit)</option>
+            <option value="forex">Forex (1 Lot = 100,000)</option>
+            <option value="crypto">Crypto</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Lot Size / Contract Size</label>
+          <input type="number" id="ps-lotsize" placeholder="e.g. 50" oninput="calcPosition()">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-calc" onclick="calcPosition()">Calculate</button>
+        <button class="btn-reset" onclick="resetForm('position')">Reset</button>
+      </div>
+      <div class="results-grid" id="ps-results">
+        <div class="result-box highlight">
+          <div class="result-label">Lot Size / Qty</div>
+          <div class="result-value accent" id="ps-qty">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Risk Amount (₹)</div>
+          <div class="result-value negative" id="ps-riskamt">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Capital Required (₹)</div>
+          <div class="result-value info" id="ps-capital-req">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">SL Distance</div>
+          <div class="result-value" id="ps-sldist">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. RISK:REWARD -->
+  <div id="panel-rr" class="calc-panel">
+    <div class="card">
+      <div class="card-title"><span class="icon">⚖️</span> Risk : Reward Calculator</div>
+      <div class="card-desc">// Entry, SL aur Target daal — instant R:R dekho</div>
+      <div class="input-grid">
+        <div class="field">
+          <label>Entry Price (₹)</label>
+          <input type="number" id="rr-entry" placeholder="e.g. 500" oninput="calcRR()">
+        </div>
+        <div class="field">
+          <label>Stop Loss (₹)</label>
+          <input type="number" id="rr-sl" placeholder="e.g. 490" oninput="calcRR()">
+        </div>
+        <div class="field">
+          <label>Target Price (₹)</label>
+          <input type="number" id="rr-target" placeholder="e.g. 525" oninput="calcRR()">
+        </div>
+        <div class="field">
+          <label>Trade Type</label>
+          <select id="rr-direction" onchange="calcRR()">
+            <option value="long">Long (Buy)</option>
+            <option value="short">Short (Sell)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Quantity</label>
+          <input type="number" id="rr-qty" placeholder="e.g. 100" oninput="calcRR()">
+        </div>
+        <div class="field">
+          <label>Win Rate (%)</label>
+          <input type="number" id="rr-winrate" placeholder="e.g. 50" step="1" oninput="calcRR()">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-calc" onclick="calcRR()">Calculate</button>
+        <button class="btn-reset" onclick="resetForm('rr')">Reset</button>
+      </div>
+      <div class="results-grid" id="rr-results" style="margin-bottom:16px">
+        <div class="result-box highlight">
+          <div class="result-label">R:R Ratio</div>
+          <div class="result-value accent" id="rr-ratio">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Risk (₹)</div>
+          <div class="result-value negative" id="rr-risk-val">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Reward (₹)</div>
+          <div class="result-value positive" id="rr-reward-val">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Breakeven Win%</div>
+          <div class="result-value info" id="rr-be">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Expected Value (₹)</div>
+          <div class="result-value" id="rr-ev">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Trade Quality</div>
+          <div class="result-value" id="rr-quality">—</div>
+        </div>
+      </div>
+      <div id="rr-bar-section" style="display:none">
+        <div class="rr-visual">
+          <div class="rr-bar-risk" id="rr-bar-risk"></div>
+          <div class="rr-bar-reward" id="rr-bar-reward"></div>
+        </div>
+        <div class="rr-labels">
+          <span style="color:#E74C3C">◀ Risk</span>
+          <span style="color:#2ECC71">Reward ▶</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. TRADE JOURNAL -->
+  <div id="panel-journal" class="calc-panel">
+    <div class="card">
+      <div class="card-title"><span class="icon">📒</span> Trade Journal</div>
+      <div class="card-desc">// Apni trades log karo, win rate aur P&L track karo</div>
+      <div class="input-grid">
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="tj-date">
+        </div>
+        <div class="field">
+          <label>Symbol</label>
+          <input type="text" id="tj-symbol" placeholder="e.g. RELIANCE">
+        </div>
+        <div class="field">
+          <label>Type</label>
+          <select id="tj-type">
+            <option value="Long">Long</option>
+            <option value="Short">Short</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Entry (₹)</label>
+          <input type="number" id="tj-entry" placeholder="e.g. 500">
+        </div>
+        <div class="field">
+          <label>Exit (₹)</label>
+          <input type="number" id="tj-exit" placeholder="e.g. 520">
+        </div>
+        <div class="field">
+          <label>Qty / Lots</label>
+          <input type="number" id="tj-qty" placeholder="e.g. 50">
+        </div>
+        <div class="field">
+          <label>Strategy</label>
+          <input type="text" id="tj-strat" placeholder="e.g. Breakout">
+        </div>
+        <div class="field">
+          <label>Outcome</label>
+          <select id="tj-outcome">
+            <option value="Win">Win</option>
+            <option value="Loss">Loss</option>
+            <option value="Open">Open</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-calc" onclick="addTrade()">+ Add Trade</button>
+        <button class="btn-reset" onclick="clearJournal()">Clear All</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="stats-row" id="tj-stats">
+        <div class="stat-mini"><div class="s-val" id="tj-total">0</div><div class="s-lbl">Total Trades</div></div>
+        <div class="stat-mini"><div class="s-val positive" id="tj-wins">0</div><div class="s-lbl">Wins</div></div>
+        <div class="stat-mini"><div class="s-val negative" id="tj-losses">0</div><div class="s-lbl">Losses</div></div>
+        <div class="stat-mini"><div class="s-val accent" id="tj-winrate">0%</div><div class="s-lbl">Win Rate</div></div>
+        <div class="stat-mini"><div class="s-val" id="tj-totalpnl">₹0</div><div class="s-lbl">Total P&L</div></div>
+        <div class="stat-mini"><div class="s-val positive" id="tj-avgwin">₹0</div><div class="s-lbl">Avg Win</div></div>
+        <div class="stat-mini"><div class="s-val negative" id="tj-avgloss">₹0</div><div class="s-lbl">Avg Loss</div></div>
+      </div>
+      <div class="journal-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th>Symbol</th>
+              <th>Type</th>
+              <th>Entry</th>
+              <th>Exit</th>
+              <th>Qty</th>
+              <th>P&L</th>
+              <th>Outcome</th>
+              <th>Strategy</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tj-tbody">
+            <tr><td colspan="11" style="text-align:center;color:var(--text3);padding:28px;font-family:'DM Mono',monospace">No trades logged yet...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. DRAWDOWN -->
+  <div id="panel-drawdown" class="calc-panel">
+    <div class="card">
+      <div class="card-title"><span class="icon">📉</span> Drawdown Calculator</div>
+      <div class="card-desc">// Max drawdown aur recovery kya lagega — pehle se plan karo</div>
+      <div class="input-grid">
+        <div class="field">
+          <label>Starting Capital (₹)</label>
+          <input type="number" id="dd-capital" placeholder="e.g. 100000" oninput="calcDrawdown()">
+        </div>
+        <div class="field">
+          <label>Current Value / Low (₹)</label>
+          <input type="number" id="dd-current" placeholder="e.g. 75000" oninput="calcDrawdown()">
+        </div>
+        <div class="field">
+          <label>Consecutive Losses</label>
+          <input type="number" id="dd-losses" placeholder="e.g. 5" oninput="calcDrawdown()">
+        </div>
+        <div class="field">
+          <label>Risk Per Trade (%)</label>
+          <input type="number" id="dd-riskpt" placeholder="e.g. 2" step="0.5" oninput="calcDrawdown()">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-calc" onclick="calcDrawdown()">Calculate</button>
+        <button class="btn-reset" onclick="resetForm('drawdown')">Reset</button>
+      </div>
+      <div class="results-grid">
+        <div class="result-box highlight">
+          <div class="result-label">Drawdown %</div>
+          <div class="result-value negative" id="dd-pct">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Loss Amount (₹)</div>
+          <div class="result-value negative" id="dd-lossamt">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Recovery Needed %</div>
+          <div class="result-value accent" id="dd-recovery">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Trades to Recover</div>
+          <div class="result-value info" id="dd-trades">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">5-Loss Streak Impact</div>
+          <div class="result-value negative" id="dd-streak5">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Risk Level</div>
+          <div class="result-value" id="dd-risklevel">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. BROKERAGE & P&L -->
+  <div id="panel-brokerage" class="calc-panel">
+    <div class="card">
+      <div class="card-title"><span class="icon">💰</span> Brokerage & P&L Calculator</div>
+      <div class="card-desc">// Charges minus karne ke baad actual profit calculate karo</div>
+      <div class="input-grid">
+        <div class="field">
+          <label>Instrument</label>
+          <select id="br-instrument" onchange="updateBrokerage()">
+            <option value="equity_delivery">Equity Delivery</option>
+            <option value="equity_intraday">Equity Intraday</option>
+            <option value="futures">Futures (F&O)</option>
+            <option value="options_buy">Options (Buy)</option>
+            <option value="options_sell">Options (Sell)</option>
+            <option value="crypto">Crypto</option>
+            <option value="forex">Forex</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Buy Price (₹)</label>
+          <input type="number" id="br-buy" placeholder="e.g. 500" oninput="calcBrokerage()">
+        </div>
+        <div class="field">
+          <label>Sell Price (₹)</label>
+          <input type="number" id="br-sell" placeholder="e.g. 520" oninput="calcBrokerage()">
+        </div>
+        <div class="field">
+          <label>Quantity</label>
+          <input type="number" id="br-qty" placeholder="e.g. 100" oninput="calcBrokerage()">
+        </div>
+        <div class="field">
+          <label>Brokerage Per Trade (₹)</label>
+          <input type="number" id="br-brokerage" placeholder="Auto / Custom" step="0.01" oninput="calcBrokerage()">
+        </div>
+        <div class="field">
+          <label>STT % (Auto-filled)</label>
+          <input type="number" id="br-stt" step="0.001" placeholder="0.1" oninput="calcBrokerage()">
+        </div>
+        <div class="field">
+          <label>Exchange Txn Charge %</label>
+          <input type="number" id="br-exchange" step="0.001" placeholder="0.00345" oninput="calcBrokerage()">
+        </div>
+        <div class="field">
+          <label>GST %</label>
+          <input type="number" id="br-gst" value="18" step="0.1" oninput="calcBrokerage()">
+        </div>
+        <div class="field">
+          <label>SEBI Charges %</label>
+          <input type="number" id="br-sebi" value="0.0001" step="0.00001" oninput="calcBrokerage()">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-calc" onclick="calcBrokerage()">Calculate</button>
+        <button class="btn-reset" onclick="resetBrokerage()">Reset</button>
+      </div>
+      <div class="results-grid">
+        <div class="result-box">
+          <div class="result-label">Gross P&L (₹)</div>
+          <div class="result-value" id="br-gross">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Total Charges (₹)</div>
+          <div class="result-value negative" id="br-charges">—</div>
+        </div>
+        <div class="result-box highlight">
+          <div class="result-label">Net P&L (₹)</div>
+          <div class="result-value" id="br-net">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Net % Return</div>
+          <div class="result-value" id="br-pct">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Brokerage (₹)</div>
+          <div class="result-value" id="br-brokamt">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Tax (STT+GST+SEBI)</div>
+          <div class="result-value negative" id="br-tax">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Breakeven Move</div>
+          <div class="result-value info" id="br-breakeven">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Effective Rate (%)</div>
+          <div class="result-value" id="br-effrate">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  ⚔️ TheRonincourse — Built for Serious Traders &nbsp;|&nbsp; All calculations are for educational purposes
+</div>
+
+<script>
+  // ===== THEME =====
+  const toggle = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('trc-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+
+  toggle.addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('trc-theme', next);
+  });
+
+  // ===== TABS =====
+  function switchTab(name, btn) {
+    document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    btn.classList.add('active');
+    if (name === 'journal') renderJournal();
+  }
+
+  // ===== RESET =====
+  function resetForm(id) {
+    const map = {
+      position: ['ps-capital','ps-risk','ps-entry','ps-sl','ps-lotsize'],
+      rr: ['rr-entry','rr-sl','rr-target','rr-qty','rr-winrate'],
+      drawdown: ['dd-capital','dd-current','dd-losses','dd-riskpt']
+    };
+    map[id].forEach(f => { const el = document.getElementById(f); if(el) el.value = ''; });
+    if(id==='position') { ['ps-qty','ps-riskamt','ps-capital-req','ps-sldist'].forEach(i => setVal(i,'—')); }
+    if(id==='rr') {
+      ['rr-ratio','rr-risk-val','rr-reward-val','rr-be','rr-ev','rr-quality'].forEach(i => setVal(i,'—',''));
+      document.getElementById('rr-bar-section').style.display='none';
+    }
+    if(id==='drawdown') { ['dd-pct','dd-lossamt','dd-recovery','dd-trades','dd-streak5','dd-risklevel'].forEach(i => setVal(i,'—','')); }
+  }
+
+  function setVal(id, val, cls='') {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.textContent = val;
+    el.className = 'result-value' + (cls ? ' '+cls : '');
+  }
+
+  function fmt(n, dec=2) {
+    if(isNaN(n) || !isFinite(n)) return '—';
+    return n.toLocaleString('en-IN', {minimumFractionDigits: dec, maximumFractionDigits: dec});
+  }
+
+  // ===== 1. POSITION SIZE =====
+  function calcPosition() {
+    const cap = parseFloat(document.getElementById('ps-capital').value);
+    const riskPct = parseFloat(document.getElementById('ps-risk').value);
+    const entry = parseFloat(document.getElementById('ps-entry').value);
+    const sl = parseFloat(document.getElementById('ps-sl').value);
+    const lotsize = parseFloat(document.getElementById('ps-lotsize').value) || 1;
+
+    if(!cap || !riskPct || !entry || !sl) return;
+
+    const riskAmt = (cap * riskPct) / 100;
+    const slDist = Math.abs(entry - sl);
+    if(slDist === 0) return;
+
+    const rawQty = riskAmt / slDist;
+    const lots = rawQty / lotsize;
+    const roundedLots = Math.floor(lots);
+    const actualQty = roundedLots * lotsize;
+    const capitalReq = actualQty * entry;
+
+    setVal('ps-qty', roundedLots > 0 ? roundedLots + ' lots / ' + actualQty + ' units' : '<1 lot', 'accent');
+    setVal('ps-riskamt', '₹' + fmt(riskAmt), 'negative');
+    setVal('ps-capital-req', '₹' + fmt(capitalReq), 'info');
+    setVal('ps-sldist', '₹' + fmt(slDist) + ' (' + fmt(slDist/entry*100,2) + '%)');
+  }
+
+  // ===== 2. RISK:REWARD =====
+  function calcRR() {
+    const entry = parseFloat(document.getElementById('rr-entry').value);
+    const sl = parseFloat(document.getElementById('rr-sl').value);
+    const target = parseFloat(document.getElementById('rr-target').value);
+    const qty = parseFloat(document.getElementById('rr-qty').value) || 1;
+    const winRate = parseFloat(document.getElementById('rr-winrate').value);
+    const dir = document.getElementById('rr-direction').value;
+
+    if(!entry || !sl || !target) return;
+
+    let risk, reward;
+    if(dir === 'long') {
+      risk = entry - sl;
+      reward = target - entry;
+    } else {
+      risk = sl - entry;
+      reward = entry - target;
+    }
+
+    if(risk <= 0 || reward <= 0) { setVal('rr-ratio', 'Invalid','negative'); return; }
+
+    const rr = reward / risk;
+    const riskVal = risk * qty;
+    const rewardVal = reward * qty;
+    const beWin = (1 / (1 + rr)) * 100;
+    const ev = winRate ? (winRate/100 * rewardVal) - ((1-winRate/100) * riskVal) : null;
+
+    setVal('rr-ratio', '1 : ' + fmt(rr,2), rr>=2?'positive':rr>=1?'accent':'negative');
+    setVal('rr-risk-val', '₹'+fmt(riskVal), 'negative');
+    setVal('rr-reward-val', '₹'+fmt(rewardVal), 'positive');
+    setVal('rr-be', fmt(beWin,1)+'%', 'info');
+
+    if(ev !== null) {
+      setVal('rr-ev', '₹'+fmt(ev), ev>=0?'positive':'negative');
+    } else {
+      setVal('rr-ev', 'Enter Win%');
+    }
+
+    let quality = rr>=3?'🟢 Excellent':rr>=2?'🟡 Good':rr>=1?'🟠 Acceptable':'🔴 Poor';
+    setVal('rr-quality', quality);
+
+    // Bar
+    const total = risk + reward;
+    const riskW = (risk/total*100).toFixed(1);
+    const rewW = (reward/total*100).toFixed(1);
+    document.getElementById('rr-bar-section').style.display='block';
+    document.getElementById('rr-bar-risk').style.width = riskW+'%';
+    document.getElementById('rr-bar-reward').style.width = rewW+'%';
+  }
+
+  // ===== 3. TRADE JOURNAL =====
+  let trades = JSON.parse(localStorage.getItem('trc-trades') || '[]');
+
+  // Set today's date
+  document.getElementById('tj-date').value = new Date().toISOString().split('T')[0];
+
+  function addTrade() {
+    const date = document.getElementById('tj-date').value;
+    const symbol = document.getElementById('tj-symbol').value.trim().toUpperCase();
+    const type = document.getElementById('tj-type').value;
+    const entry = parseFloat(document.getElementById('tj-entry').value);
+    const exit = parseFloat(document.getElementById('tj-exit').value);
+    const qty = parseFloat(document.getElementById('tj-qty').value);
+    const outcome = document.getElementById('tj-outcome').value;
+    const strat = document.getElementById('tj-strat').value.trim();
+
+    if(!symbol || !entry || !qty) { alert('Symbol, Entry, aur Qty required hai!'); return; }
+
+    const pnl = exit ? (type==='Long' ? (exit-entry)*qty : (entry-exit)*qty) : 0;
+    trades.push({ date, symbol, type, entry, exit: exit||null, qty, pnl, outcome, strat });
+    localStorage.setItem('trc-trades', JSON.stringify(trades));
+
+    // Clear inputs
+    ['tj-symbol','tj-entry','tj-exit','tj-qty','tj-strat'].forEach(id => { document.getElementById(id).value=''; });
+    renderJournal();
+  }
+
+  function deleteTrade(i) {
+    trades.splice(i,1);
+    localStorage.setItem('trc-trades', JSON.stringify(trades));
+    renderJournal();
+  }
+
+  function clearJournal() {
+    if(confirm('Sab trades delete karo? Yeh action undo nahi hoga.')) {
+      trades = [];
+      localStorage.setItem('trc-trades', JSON.stringify(trades));
+      renderJournal();
+    }
+  }
+
+  function renderJournal() {
+    const tbody = document.getElementById('tj-tbody');
+    if(!trades.length) {
+      tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;color:var(--text3);padding:28px;font-family:\'DM Mono\',monospace">No trades logged yet...</td></tr>';
+      updateJournalStats([]);
+      return;
+    }
+
+    tbody.innerHTML = trades.map((t,i) => `
+      <tr>
+        <td style="color:var(--text3)">${i+1}</td>
+        <td>${t.date||'—'}</td>
+        <td style="font-weight:600">${t.symbol}</td>
+        <td style="color:${t.type==='Long'?'#2ECC71':'#E74C3C'}">${t.type}</td>
+        <td>₹${fmt(t.entry)}</td>
+        <td>${t.exit?'₹'+fmt(t.exit):'—'}</td>
+        <td>${t.qty}</td>
+        <td style="color:${t.pnl>=0?'#2ECC71':'#E74C3C'};font-weight:600">${t.exit?'₹'+fmt(t.pnl):'—'}</td>
+        <td><span class="badge ${t.outcome.toLowerCase()}">${t.outcome}</span></td>
+        <td style="color:var(--text2)">${t.strat||'—'}</td>
+        <td><button class="del-btn" onclick="deleteTrade(${i})">✕</button></td>
+      </tr>
+    `).join('');
+
+    updateJournalStats(trades);
+  }
+
+  function updateJournalStats(ts) {
+    const wins = ts.filter(t=>t.outcome==='Win');
+    const losses = ts.filter(t=>t.outcome==='Loss');
+    const totalPnl = ts.reduce((a,t)=>a+t.pnl,0);
+    const avgWin = wins.length ? wins.reduce((a,t)=>a+t.pnl,0)/wins.length : 0;
+    const avgLoss = losses.length ? losses.reduce((a,t)=>a+t.pnl,0)/losses.length : 0;
+    const wr = ts.length ? (wins.length/ts.length*100).toFixed(1) : 0;
+
+    document.getElementById('tj-total').textContent = ts.length;
+    document.getElementById('tj-wins').textContent = wins.length;
+    document.getElementById('tj-losses').textContent = losses.length;
+    document.getElementById('tj-winrate').textContent = wr+'%';
+    const pnlEl = document.getElementById('tj-totalpnl');
+    pnlEl.textContent = '₹'+fmt(totalPnl);
+    pnlEl.className = 's-val ' + (totalPnl>=0?'positive':'negative');
+    document.getElementById('tj-avgwin').textContent = '₹'+fmt(avgWin);
+    document.getElementById('tj-avgloss').textContent = '₹'+fmt(avgLoss);
+  }
+
+  renderJournal();
+
+  // ===== 4. DRAWDOWN =====
+  function calcDrawdown() {
+    const cap = parseFloat(document.getElementById('dd-capital').value);
+    const cur = parseFloat(document.getElementById('dd-current').value);
+    const losses = parseFloat(document.getElementById('dd-losses').value);
+    const riskPt = parseFloat(document.getElementById('dd-riskpt').value);
+
+    if(!cap || !cur) return;
+
+    const lossAmt = cap - cur;
+    const ddPct = (lossAmt / cap) * 100;
+    const recovery = (lossAmt / cur) * 100;
+
+    // Trades to recover at riskPt% per trade (assuming 1:1 R:R and 50% WR)
+    let tradesToRecover = 0;
+    if(riskPt) {
+      let bal = cur;
+      while(bal < cap && tradesToRecover < 1000) {
+        bal += cur * riskPt / 100;
+        tradesToRecover++;
+      }
+    }
+
+    // 5 loss streak from starting
+    let afterStreak = cap;
+    if(riskPt && losses) {
+      for(let i=0; i<losses; i++) { afterStreak -= afterStreak * riskPt/100; }
+    }
+
+    const riskLevel = ddPct < 10 ? '🟢 Low' : ddPct < 20 ? '🟡 Moderate' : ddPct < 30 ? '🟠 High' : '🔴 Critical';
+
+    setVal('dd-pct', fmt(ddPct,2)+'%', 'negative');
+    setVal('dd-lossamt', '₹'+fmt(lossAmt), 'negative');
+    setVal('dd-recovery', fmt(recovery,2)+'%', 'accent');
+    setVal('dd-trades', riskPt ? tradesToRecover+' trades' : 'Enter Risk%', 'info');
+    setVal('dd-streak5', riskPt&&losses ? '₹'+fmt(afterStreak)+' ('+fmt((cap-afterStreak)/cap*100,1)+'% loss)' : 'Enter both fields', 'negative');
+    setVal('dd-risklevel', riskLevel);
+  }
+
+  // ===== 5. BROKERAGE =====
+  const brokeragePresets = {
+    equity_delivery: { brok: 0, stt: 0.1, exchange: 0.00345, label: 'Equity Delivery' },
+    equity_intraday: { brok: 20, stt: 0.025, exchange: 0.00345, label: 'Equity Intraday' },
+    futures: { brok: 20, stt: 0.01, exchange: 0.002, label: 'Futures' },
+    options_buy: { brok: 20, stt: 0.05, exchange: 0.053, label: 'Options Buy' },
+    options_sell: { brok: 20, stt: 0.05, exchange: 0.053, label: 'Options Sell' },
+    crypto: { brok: 0, stt: 0, exchange: 0.1, label: 'Crypto' },
+    forex: { brok: 0, stt: 0, exchange: 0.0035, label: 'Forex' }
+  };
+
+  function updateBrokerage() {
+    const instr = document.getElementById('br-instrument').value;
+    const p = brokeragePresets[instr];
+    document.getElementById('br-brokerage').value = p.brok || '';
+    document.getElementById('br-stt').value = p.stt;
+    document.getElementById('br-exchange').value = p.exchange;
+    calcBrokerage();
+  }
+
+  // Init
+  updateBrokerage();
+
+  function calcBrokerage() {
+    const buy = parseFloat(document.getElementById('br-buy').value);
+    const sell = parseFloat(document.getElementById('br-sell').value);
+    const qty = parseFloat(document.getElementById('br-qty').value);
+    const brok = parseFloat(document.getElementById('br-brokerage').value) || 0;
+    const sttPct = parseFloat(document.getElementById('br-stt').value) || 0;
+    const exchPct = parseFloat(document.getElementById('br-exchange').value) || 0;
+    const gstPct = parseFloat(document.getElementById('br-gst').value) || 18;
+    const sebiPct = parseFloat(document.getElementById('br-sebi').value) || 0.0001;
+
+    if(!buy || !sell || !qty) return;
+
+    const turnover = (buy + sell) * qty;
+    const grossPnl = (sell - buy) * qty;
+    const brokTotal = brok * 2; // buy + sell
+    const stt = (turnover * sttPct) / 100;
+    const exchange = (turnover * exchPct) / 100;
+    const sebi = (turnover * sebiPct) / 100;
+    const gst = ((brokTotal + exchange) * gstPct) / 100;
+    const totalCharges = brokTotal + stt + exchange + sebi + gst;
+    const netPnl = grossPnl - totalCharges;
+    const netPct = (netPnl / (buy * qty)) * 100;
+    const breakeven = totalCharges / qty;
+    const effRate = (totalCharges / (buy * qty)) * 100;
+
+    const grossCls = grossPnl>=0?'positive':'negative';
+    const netCls = netPnl>=0?'positive':'negative';
+
+    setVal('br-gross', '₹'+fmt(grossPnl), grossCls);
+    setVal('br-charges', '₹'+fmt(totalCharges), 'negative');
+    setVal('br-net', '₹'+fmt(netPnl), netCls);
+    setVal('br-pct', fmt(netPct,3)+'%', netCls);
+    setVal('br-brokamt', '₹'+fmt(brokTotal));
+    setVal('br-tax', '₹'+fmt(stt+gst+sebi), 'negative');
+    setVal('br-breakeven', '₹'+fmt(breakeven,4)+'/unit', 'info');
+    setVal('br-effrate', fmt(effRate,4)+'%');
+  }
+
+  function resetBrokerage() {
+    ['br-buy','br-sell','br-qty'].forEach(id => document.getElementById(id).value='');
+    ['br-gross','br-charges','br-net','br-pct','br-brokamt','br-tax','br-breakeven','br-effrate'].forEach(i=>setVal(i,'—',''));
+    updateBrokerage();
+  }
+</script>
+</body>
+</html>
